@@ -1,0 +1,203 @@
+﻿using Api_CreartNino.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
+using Api_CreartNino.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
+
+namespace Api_CreartNino.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsuariosController : ControllerBase
+    {
+        private readonly CreartNinoContext dbContext;
+        private readonly CorreoService _correoService;
+
+        // Códigos en memoria (clave = correo)
+        private static Dictionary<string, CodigoTemporal> codigosEnMemoria = new();
+
+        public UsuariosController(CreartNinoContext context, CorreoService correoService)
+        {
+            dbContext = context;
+            _correoService = correoService;
+        }
+
+        [HttpGet("Lista")]
+        public async Task<IActionResult> Get()
+        {
+            var listaUsuarios = await dbContext.Usuarios.ToListAsync();
+            return StatusCode(StatusCodes.Status200OK, listaUsuarios);
+        }
+
+        [HttpGet("perfil")]
+        [Authorize] // ✅ Solo accesible si se envía JWT válido
+        public async Task<IActionResult> ObtenerPerfil()
+        {
+            // 1. Obtener el correo desde el token
+            var correo = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            // 2. Validar si se extrajo correctamente
+            if (correo == null)
+                return Unauthorized(new { mensaje = "Token no válido o expirado." });
+
+            // 3. Buscar el usuario en la base de datos por su correo
+            var usuario = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
+
+            // 4. Validar si el usuario existe
+            if (usuario == null)
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+
+            // 5. Retornar solo los campos permitidos
+            return Ok(new
+            {
+                idUsuarios = usuario.IdUsuarios,
+                nombreCompleto = usuario.NombreCompleto,
+                tipoDocumento = usuario.TipoDocumento,
+                numDocumento = usuario.NumDocumento,
+                celular = usuario.Celular,
+                departamento = usuario.Departamento,
+                ciudad = usuario.Ciudad,
+                direccion = usuario.Direccion,
+                correo = usuario.Correo,
+                idRol = usuario.IdRol,
+                estado = usuario.Estado
+            });
+        }
+
+
+        [HttpGet("Obtener/{id:int}")]
+        public async Task<IActionResult> Obtener(int id)
+        {
+            var usuario = await dbContext.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+            }
+            return Ok(usuario);
+        }
+
+        [HttpPost("Crear")]
+        public async Task<IActionResult> Crear([FromBody] Usuario objeto)
+        {
+            if (objeto == null || string.IsNullOrEmpty(objeto.Correo) || string.IsNullOrEmpty(objeto.Contrasena))
+            {
+                return BadRequest(new { mensaje = "Datos inválidos. Correo y contraseña son requeridos." });
+            }
+
+            var existeCorreo = await dbContext.Usuarios.AnyAsync(u => u.Correo == objeto.Correo);
+            if (existeCorreo)
+            {
+                return BadRequest(new { mensaje = "El correo ya está registrado." });
+            }
+
+            await dbContext.Usuarios.AddAsync(objeto);
+            await dbContext.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Usuario creado correctamente.", objeto.IdUsuarios });
+        }
+
+        [HttpPut("Actualizar/{id:int}")]
+        public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario objeto)
+        {
+            if (id != objeto.IdUsuarios)
+            {
+                return BadRequest(new { mensaje = "El ID en la URL no coincide con el del objeto enviado." });
+            }
+
+            var usuarioDb = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.IdUsuarios == id);
+            if (usuarioDb == null)
+            {
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+            }
+
+            usuarioDb.NombreCompleto = objeto.NombreCompleto;
+            usuarioDb.TipoDocumento = objeto.TipoDocumento;
+            usuarioDb.NumDocumento = objeto.NumDocumento;
+            usuarioDb.Celular = objeto.Celular;
+            usuarioDb.Departamento = objeto.Departamento;
+            usuarioDb.Ciudad = objeto.Ciudad;
+            usuarioDb.Direccion = objeto.Direccion;
+            usuarioDb.Correo = objeto.Correo;
+            usuarioDb.IdRol = objeto.IdRol;
+            usuarioDb.Estado = objeto.Estado;
+
+            if (!string.IsNullOrEmpty(objeto.Contrasena))
+            {
+                usuarioDb.Contrasena = objeto.Contrasena;
+            }
+
+            dbContext.Usuarios.Update(usuarioDb);
+            await dbContext.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Usuario actualizado correctamente." });
+        }
+
+        [HttpDelete("Eliminar/{id:int}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var usuario = await dbContext.Usuarios.FindAsync(id);
+            if (usuario == null)
+            {
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+            }
+
+            try
+            {
+                dbContext.Usuarios.Remove(usuario);
+                await dbContext.SaveChangesAsync();
+                return Ok(new { mensaje = "Usuario eliminado correctamente." });
+            }
+            catch (DbUpdateException)
+            {
+                return Conflict(new { mensaje = "No se puede eliminar el estado porque está asociada a una o más compras." });
+            }
+        }
+
+        // 🚀 Enviar código al correo (sin usar base de datos)
+        [HttpPost("EnviarCodigoCorreo")]
+        public async Task<IActionResult> EnviarCodigoCorreo([FromBody] string correo)
+        {
+            var codigo = new Random().Next(100000, 999999).ToString();
+
+            codigosEnMemoria[correo] = new CodigoTemporal
+            {
+                Codigo = codigo,
+                FechaExpiracion = DateTime.Now.AddMinutes(10)
+            };
+
+            await _correoService.EnviarCorreoAsync(correo, "Código de verificación", $"Tu código es: {codigo}");
+            return Ok(new { mensaje = "Código enviado al correo." });
+        }
+
+        // 🚀 Verificar código ingresado por el cliente
+        [HttpPost("VerificarCodigoCorreo")]
+        public IActionResult VerificarCodigoCorreo([FromBody] VerificacionCorreo modelo)
+        {
+            if (!codigosEnMemoria.TryGetValue(modelo.Correo, out var temporal))
+                return BadRequest("No se ha solicitado un código.");
+
+            if (DateTime.Now > temporal.FechaExpiracion)
+                return BadRequest("El código ha expirado.");
+
+            if (modelo.Codigo != temporal.Codigo)
+                return BadRequest("Código incorrecto.");
+
+            codigosEnMemoria.Remove(modelo.Correo);
+            return Ok(new { mensaje = "Código verificado correctamente." });
+        }
+
+        // ✅ Clases auxiliares (puedes moverlas a /Models si lo deseas)
+        public class CodigoTemporal
+        {
+            public string Codigo { get; set; }
+            public DateTime FechaExpiracion { get; set; }
+        }
+
+        
+    }
+}
