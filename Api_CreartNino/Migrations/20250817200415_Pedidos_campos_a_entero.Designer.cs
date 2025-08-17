@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20250817200415_Pedidos_campos_a_entero")]
+    partial class Pedidos_campos_a_entero
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,6 +360,11 @@ namespace Api_CreartNino.Migrations
                     b.Property<int?>("Cantidad")
                         .HasColumnType("int");
 
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
 
@@ -370,11 +378,6 @@ namespace Api_CreartNino.Migrations
 
                     b.Property<int?>("PrecioUnitario")
                         .HasColumnType("int");
-
-                    b.Property<string>("UnidadesMedidas")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
 
                     b.HasKey("IdInsumo")
                         .HasName("PK__Insumos__F378A2AFCBC81034");

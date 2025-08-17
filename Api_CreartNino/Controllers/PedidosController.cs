@@ -51,11 +51,11 @@ namespace Api_CreartNino.Controllers
 
             public string? Descripcion { get; set; }
 
-            public decimal? ValorInicial { get; set; }
+            public int? ValorInicial { get; set; }
 
-            public decimal? ValorRestante { get; set; }
+            public int? ValorRestante { get; set; }
 
-            public decimal? TotalPedido { get; set; }
+            public int? TotalPedido { get; set; }
 
             public string? ComprobantePago { get; set; }
 
@@ -70,7 +70,7 @@ namespace Api_CreartNino.Controllers
 
             public int Cantidad { get; set; }
 
-            public decimal Subtotal { get; set; }
+            public int Subtotal { get; set; }
         }
 
 

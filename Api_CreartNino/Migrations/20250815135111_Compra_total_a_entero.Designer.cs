@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20250815135111_Compra_total_a_entero")]
+    partial class Compra_total_a_entero
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,8 +189,8 @@ namespace Api_CreartNino.Migrations
                     b.Property<int?>("IdProducto")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Subtotal")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Subtotal")
+                        .HasColumnType("decimal(18, 0)");
 
                     b.HasKey("IdDetallePedido")
                         .HasName("PK__Detalle___48AFFD956BFCC7AE");
@@ -248,11 +251,11 @@ namespace Api_CreartNino.Migrations
                     b.Property<int?>("IdInsumo")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PrecioUnitario")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("PrecioUnitario")
+                        .HasColumnType("decimal(18, 0)");
 
-                    b.Property<int?>("Subtotal")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Subtotal")
+                        .HasColumnType("decimal(18, 0)");
 
                     b.HasKey("IdDetalleCompra")
                         .HasName("PK__Detalles__E046CCBB4357A67F");
@@ -357,6 +360,11 @@ namespace Api_CreartNino.Migrations
                     b.Property<int?>("Cantidad")
                         .HasColumnType("int");
 
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
 
@@ -370,11 +378,6 @@ namespace Api_CreartNino.Migrations
 
                     b.Property<int?>("PrecioUnitario")
                         .HasColumnType("int");
-
-                    b.Property<string>("UnidadesMedidas")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
 
                     b.HasKey("IdInsumo")
                         .HasName("PK__Insumos__F378A2AFCBC81034");
@@ -419,14 +422,14 @@ namespace Api_CreartNino.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("TotalPedido")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("TotalPedido")
+                        .HasColumnType("decimal(18, 0)");
 
-                    b.Property<int?>("ValorInicial")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("ValorInicial")
+                        .HasColumnType("decimal(18, 0)");
 
-                    b.Property<int?>("ValorRestante")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("ValorRestante")
+                        .HasColumnType("decimal(18, 0)");
 
                     b.HasKey("IdPedido")
                         .HasName("PK__Pedidos__9D335DC3807CE14F");
@@ -471,7 +474,7 @@ namespace Api_CreartNino.Migrations
                     b.Property<DateOnly?>("FechaFinal")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly?>("FechaInicio")
+                    b.Property<DateOnly?>("FechaRegistro")
                         .HasColumnType("date");
 
                     b.Property<int?>("IdEstado")
@@ -527,8 +530,8 @@ namespace Api_CreartNino.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("Precio")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Precio")
+                        .HasColumnType("decimal(18, 0)");
 
                     b.HasKey("IdProducto")
                         .HasName("PK__Producto__09889210FFDA10C6");

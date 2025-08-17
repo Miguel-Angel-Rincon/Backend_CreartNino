@@ -12,11 +12,11 @@ public partial class Insumo
     
     public string? Nombre { get; set; }
 
-    public string? Descripcion { get; set; }
+    public string? UnidadesMedidas { get; set; }
 
     public int? Cantidad { get; set; }
 
-    public decimal? PrecioUnitario { get; set; }
+    public int? PrecioUnitario { get; set; }
 
     public bool? Estado { get; set; }
 

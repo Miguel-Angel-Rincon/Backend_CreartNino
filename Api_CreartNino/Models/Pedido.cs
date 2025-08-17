@@ -17,13 +17,13 @@ public partial class Pedido
 
     public string? Descripcion { get; set; }
 
-    public decimal? ValorInicial { get; set; }
+    public int? ValorInicial { get; set; }
 
-    public decimal? ValorRestante { get; set; }
+    public int? ValorRestante { get; set; }
 
     public string? ComprobantePago { get; set; }
 
-    public decimal? TotalPedido { get; set; }
+    public int? TotalPedido { get; set; }
 
     public int? IdEstado { get; set; }
 

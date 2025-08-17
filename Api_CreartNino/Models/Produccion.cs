@@ -11,7 +11,7 @@ public partial class Produccion
 
     public string? TipoProduccion { get; set; }
 
-    public DateOnly? FechaRegistro { get; set; }
+    public DateOnly? FechaInicio { get; set; }
 
     public DateOnly? FechaFinal { get; set; }
 

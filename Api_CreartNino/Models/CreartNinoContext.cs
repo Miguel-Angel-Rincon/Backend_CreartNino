@@ -162,7 +162,7 @@ public partial class CreartNinoContext : DbContext
             entity.Property(e => e.MetodoPago)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Total).HasColumnType("int");
 
             entity.HasOne(d => d.IdEstadoNavigation).WithMany(p => p.Compras)
                 .HasForeignKey(d => d.IdEstado)
@@ -181,7 +181,7 @@ public partial class CreartNinoContext : DbContext
 
             entity.ToTable("Detalle_Pedido");
 
-            entity.Property(e => e.Subtotal).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Subtotal).HasColumnType("int");
 
             entity.HasOne(d => d.IdPedidoNavigation).WithMany(p => p.DetallePedidos)
                 .HasForeignKey(d => d.IdPedido)
@@ -222,8 +222,8 @@ public partial class CreartNinoContext : DbContext
 
             entity.ToTable("Detalles_Compra");
 
-            entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Subtotal).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.PrecioUnitario).HasColumnType("int");
+            entity.Property(e => e.Subtotal).HasColumnType("int");
 
             entity.HasOne(d => d.IdCompraNavigation).WithMany(p => p.DetallesCompras)
                 .HasForeignKey(d => d.IdCompra)
@@ -288,13 +288,13 @@ public partial class CreartNinoContext : DbContext
         {
             entity.HasKey(e => e.IdInsumo).HasName("PK__Insumos__F378A2AFCBC81034");
 
-            entity.Property(e => e.Descripcion)
+            entity.Property(e => e.UnidadesMedidas)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.PrecioUnitario).HasColumnType("int");
 
             entity.HasOne(d => d.IdCatInsumoNavigation).WithMany(p => p.Insumos)
                 .HasForeignKey(d => d.IdCatInsumo)
@@ -318,9 +318,9 @@ public partial class CreartNinoContext : DbContext
             entity.Property(e => e.MetodoPago)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.TotalPedido).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ValorInicial).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.ValorRestante).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.TotalPedido).HasColumnType("int");
+            entity.Property(e => e.ValorInicial).HasColumnType("int");
+            entity.Property(e => e.ValorRestante).HasColumnType("int");
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Pedidos)
                 .HasForeignKey(d => d.IdCliente)
@@ -372,7 +372,7 @@ public partial class CreartNinoContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Precio).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Precio).HasColumnType("int");
 
             entity.HasOne(d => d.CategoriaProductoNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.CategoriaProducto)

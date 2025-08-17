@@ -13,7 +13,7 @@ public partial class DetallePedido
 
     public int? Cantidad { get; set; }
 
-    public decimal? Subtotal { get; set; }
+    public int? Subtotal { get; set; }
 
     public virtual Pedido? IdPedidoNavigation { get; set; }
 
