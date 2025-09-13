@@ -214,6 +214,12 @@ public partial class CreartNinoContext : DbContext
                 .HasForeignKey(d => d.IdProducto)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DetalleProduccion_IdProducto");
+
+            modelBuilder.Entity<DetalleProduccion>()
+    .HasOne(d => d.IdPedidoNavigation)
+    .WithMany()
+    .HasForeignKey(d => d.IdPedido)
+    .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<DetallesCompra>(entity =>
@@ -353,9 +359,7 @@ public partial class CreartNinoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.EstadosPedidoNavigation).WithMany(p => p.Produccions)
-                .HasForeignKey(d => d.EstadosPedido)
-                .HasConstraintName("FK__Produccio__Estad__59063A47");
+           
 
             entity.HasOne(d => d.IdEstadoNavigation).WithMany(p => p.Produccions)
                 .HasForeignKey(d => d.IdEstado)

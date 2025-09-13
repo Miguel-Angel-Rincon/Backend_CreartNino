@@ -15,13 +15,13 @@ public partial class Produccion
 
     public DateOnly? FechaFinal { get; set; }
 
-    public int? EstadosPedido { get; set; }
+    
 
     public int? IdEstado { get; set; }
 
     public virtual ICollection<DetalleProduccion> DetalleProduccions { get; set; } = new List<DetalleProduccion>();
 
-    public virtual EstadosPedido? EstadosPedidoNavigation { get; set; }
+    
 
     public virtual EstadosProduccion? IdEstadoNavigation { get; set; }
 }

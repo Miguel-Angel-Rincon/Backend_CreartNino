@@ -15,9 +15,15 @@ public partial class DetalleProduccion
 
     public int? CantidadProducir { get; set; }
 
+    public int? CantidadInsumo { get; set; }
+
+    public int? IdPedido { get; set; }
+
     public virtual Insumo? IdInsumoNavigation { get; set; }
 
     public virtual Produccion? IdProduccionNavigation { get; set; }
 
     public virtual Producto? IdProductoNavigation { get; set; }
+
+    public Pedido? IdPedidoNavigation { get; set; } //
 }

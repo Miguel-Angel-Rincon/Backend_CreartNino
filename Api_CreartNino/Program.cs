@@ -48,11 +48,17 @@ builder.Services.AddDbContext<CreartNinoContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("NuevaPolitica", app =>
+    options.AddPolicy("NuevaPolitica", policy =>
     {
-        app.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins(
+            "http://localhost:5173",        // 👉 desarrollo local
+            "https://creartnino.vercel.app" // 👉 producción en Vercel
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
+
 
 builder.Services.AddControllers()
 .AddJsonOptions(options =>
@@ -69,6 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRouting();
+
 
 app.UseCors("NuevaPolitica");
 
@@ -80,3 +88,5 @@ app.MapControllers();
 
 
 app.Run();
+
+

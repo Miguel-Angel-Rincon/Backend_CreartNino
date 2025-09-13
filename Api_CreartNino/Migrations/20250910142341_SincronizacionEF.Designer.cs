@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20250910142341_SincronizacionEF")]
+    partial class SincronizacionEF
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,16 +210,10 @@ namespace Api_CreartNino.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDetalleProduccion"));
 
-                    b.Property<int?>("CantidadInsumo")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CantidadProducir")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdInsumo")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IdPedido")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdProduccion")
@@ -229,8 +226,6 @@ namespace Api_CreartNino.Migrations
                         .HasName("PK__Detalle___2BD8C21E020B12D2");
 
                     b.HasIndex("IdInsumo");
-
-                    b.HasIndex("IdPedido");
 
                     b.HasIndex("IdProduccion");
 
@@ -783,11 +778,6 @@ namespace Api_CreartNino.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_DetalleProduccion_IdInsumo");
 
-                    b.HasOne("Api_CreartNino.Models.Pedido", "IdPedidoNavigation")
-                        .WithMany()
-                        .HasForeignKey("IdPedido")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Api_CreartNino.Models.Produccion", "IdProduccionNavigation")
                         .WithMany("DetalleProduccions")
                         .HasForeignKey("IdProduccion")
@@ -801,8 +791,6 @@ namespace Api_CreartNino.Migrations
                         .HasConstraintName("FK_DetalleProduccion_IdProducto");
 
                     b.Navigation("IdInsumoNavigation");
-
-                    b.Navigation("IdPedidoNavigation");
 
                     b.Navigation("IdProduccionNavigation");
 
