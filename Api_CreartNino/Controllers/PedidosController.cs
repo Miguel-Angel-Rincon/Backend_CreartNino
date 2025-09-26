@@ -84,43 +84,48 @@ namespace Api_CreartNino.Controllers
             {
                 var pedido = new Pedido
                 {
-                    IdCliente = dto.IdCliente,
+                    IdCliente = dto.IdCliente > 0 ? dto.IdCliente : null, // ⚡ evitar 0
                     MetodoPago = dto.MetodoPago,
-                    FechaPedido = dto.FechaPedido,         // ✅ Asignación directa
-                    FechaEntrega = dto.FechaEntrega,       // ✅ Asignación directa
+                    FechaPedido = dto.FechaPedido,
+                    FechaEntrega = dto.FechaEntrega,
                     Descripcion = dto.Descripcion,
                     ValorInicial = dto.ValorInicial,
                     ValorRestante = dto.ValorRestante,
                     TotalPedido = dto.TotalPedido,
                     ComprobantePago = dto.ComprobantePago,
-                    IdEstado = dto.IdEstado
+                    IdEstado = dto.IdEstado > 0 ? dto.IdEstado : null // ⚡ evitar 0
                 };
 
-                await dbContext.Pedidos.AddAsync(pedido);
-                await dbContext.SaveChangesAsync();
-
+                // Agregamos detalles directamente en la colección
                 foreach (var det in dto.DetallePedidos)
                 {
-                    var nuevoDet = new DetallePedido
+                    pedido.DetallePedidos.Add(new DetallePedido
                     {
-                        IdPedido = pedido.IdPedido,
-                        IdProducto = det.IdProducto,
+                        IdProducto = det.IdProducto > 0 ? det.IdProducto : null, // ⚡ evitar 0
                         Cantidad = det.Cantidad,
                         Subtotal = det.Subtotal
-                    };
-                    dbContext.DetallePedidos.Add(nuevoDet);
+                    });
                 }
 
+                dbContext.Pedidos.Add(pedido);
                 await dbContext.SaveChangesAsync();
 
-                return Ok(new { mensaje = "✅ Pedido creado correctamente.", pedido.IdPedido });
+                return Ok(new
+                {
+                    mensaje = "✅ Pedido creado correctamente.",
+                    pedido.IdPedido
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error interno al crear pedido: {ex}");
-                return StatusCode(500, new { mensaje = "Error interno", detalle = ex.Message });
+                return StatusCode(500, new
+                {
+                    mensaje = "Error interno",
+                    detalle = ex.InnerException?.Message ?? ex.Message
+                });
             }
         }
+
 
 
 

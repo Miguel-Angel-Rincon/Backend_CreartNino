@@ -48,6 +48,16 @@ namespace Api_CreartNino.Controllers
                 return BadRequest(new { mensaje = "Datos inválidos." });
             }
 
+            
+
+            // Validar número de documento duplicado
+            var existeDocumento = await dbContext.Proveedores
+                .AnyAsync(p => p.NumDocumento == objeto.NumDocumento);
+            if (existeDocumento)
+            {
+                return BadRequest(new { mensaje = "El número de documento ya está registrado por otro proveedor." });
+            }
+
             await dbContext.Proveedores.AddAsync(objeto);
             await dbContext.SaveChangesAsync();
 
@@ -62,6 +72,14 @@ namespace Api_CreartNino.Controllers
             if (id != objeto.IdProveedor)
             {
                 return BadRequest("El ID en la URL no coincide con el ID del objeto.");
+            }
+
+            // Validar número de documento duplicado (excluyendo el mismo proveedor)
+            var existeDocumento = await dbContext.Proveedores
+                .AnyAsync(p => p.NumDocumento == objeto.NumDocumento && p.IdProveedor != id);
+            if (existeDocumento)
+            {
+                return BadRequest(new { mensaje = "El número de documento ya está registrado por otro proveedor." });
             }
 
             dbContext.Proveedores.Update(objeto);

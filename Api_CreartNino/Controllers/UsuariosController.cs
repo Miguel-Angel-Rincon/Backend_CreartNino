@@ -89,10 +89,18 @@ namespace Api_CreartNino.Controllers
                 return BadRequest(new { mensaje = "Datos inválidos. Correo y contraseña son requeridos." });
             }
 
+            // Validar correo duplicado
             var existeCorreo = await dbContext.Usuarios.AnyAsync(u => u.Correo == objeto.Correo);
             if (existeCorreo)
             {
                 return BadRequest(new { mensaje = "El correo ya está registrado." });
+            }
+
+            // Validar número de documento duplicado
+            var existeDocumento = await dbContext.Usuarios.AnyAsync(u => u.NumDocumento == objeto.NumDocumento);
+            if (existeDocumento)
+            {
+                return BadRequest(new { mensaje = "El número de documento ya está registrado." });
             }
 
             await dbContext.Usuarios.AddAsync(objeto);
@@ -100,6 +108,7 @@ namespace Api_CreartNino.Controllers
 
             return Ok(new { mensaje = "Usuario creado correctamente.", objeto.IdUsuarios });
         }
+
 
         [HttpPut("Actualizar/{id:int}")]
         public async Task<IActionResult> Actualizar(int id, [FromBody] Usuario objeto)
@@ -115,6 +124,23 @@ namespace Api_CreartNino.Controllers
                 return NotFound(new { mensaje = "Usuario no encontrado." });
             }
 
+            // Validar correo duplicado (excluyendo al usuario actual)
+            var existeCorreo = await dbContext.Usuarios
+                .AnyAsync(u => u.Correo == objeto.Correo && u.IdUsuarios != id);
+            if (existeCorreo)
+            {
+                return BadRequest(new { mensaje = "El correo ya está registrado por otro usuario." });
+            }
+
+            // Validar número de documento duplicado (excluyendo al usuario actual)
+            var existeDocumento = await dbContext.Usuarios
+                .AnyAsync(u => u.NumDocumento == objeto.NumDocumento && u.IdUsuarios != id);
+            if (existeDocumento)
+            {
+                return BadRequest(new { mensaje = "El número de documento ya está registrado por otro usuario." });
+            }
+
+            // ==== Actualizar datos del Usuario ====
             usuarioDb.NombreCompleto = objeto.NombreCompleto;
             usuarioDb.TipoDocumento = objeto.TipoDocumento;
             usuarioDb.NumDocumento = objeto.NumDocumento;
@@ -132,10 +158,29 @@ namespace Api_CreartNino.Controllers
             }
 
             dbContext.Usuarios.Update(usuarioDb);
+
+            // ==== Si existe Cliente con el mismo documento, actualizarlo también ====
+            var clienteDb = await dbContext.Clientes.FirstOrDefaultAsync(c => c.NumDocumento == objeto.NumDocumento);
+            if (clienteDb != null)
+            {
+                clienteDb.NombreCompleto = objeto.NombreCompleto;
+                clienteDb.TipoDocumento = objeto.TipoDocumento;
+                clienteDb.NumDocumento = objeto.NumDocumento;
+                clienteDb.Celular = objeto.Celular;
+                clienteDb.Departamento = objeto.Departamento;
+                clienteDb.Ciudad = objeto.Ciudad;
+                clienteDb.Direccion = objeto.Direccion;
+                clienteDb.Correo = objeto.Correo;
+                clienteDb.Estado = objeto.Estado;
+
+                dbContext.Clientes.Update(clienteDb);
+            }
+
             await dbContext.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Usuario actualizado correctamente." });
+            return Ok(new { mensaje = "Usuario (y cliente si aplica) actualizado correctamente." });
         }
+
 
         [HttpDelete("Eliminar/{id:int}")]
         public async Task<IActionResult> Eliminar(int id)
@@ -146,15 +191,34 @@ namespace Api_CreartNino.Controllers
                 return NotFound(new { mensaje = "Usuario no encontrado." });
             }
 
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
             try
             {
+                // Buscar si existe cliente con el mismo documento
+                var cliente = await dbContext.Clientes
+                    .FirstOrDefaultAsync(c => c.NumDocumento == usuario.NumDocumento);
+
+                if (cliente != null)
+                {
+                    dbContext.Clientes.Remove(cliente);
+                }
+
                 dbContext.Usuarios.Remove(usuario);
+
                 await dbContext.SaveChangesAsync();
-                return Ok(new { mensaje = "Usuario eliminado correctamente." });
+                await transaction.CommitAsync();
+
+                return Ok(new { mensaje = "Usuario (y cliente si existía) eliminado correctamente." });
             }
             catch (DbUpdateException)
             {
-                return Conflict(new { mensaje = "No se puede eliminar el estado porque está asociada a una o más compras." });
+                await transaction.RollbackAsync();
+                return Conflict(new { mensaje = "No se puede eliminar el usuario porque está asociado a una o más compras." });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(500, new { mensaje = "Ocurrió un error al eliminar el usuario.", detalle = ex.Message });
             }
         }
 

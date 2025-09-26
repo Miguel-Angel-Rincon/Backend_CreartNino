@@ -316,7 +316,7 @@ public partial class CreartNinoContext : DbContext
             entity.HasKey(e => e.IdPedido).HasName("PK__Pedidos__9D335DC3807CE14F");
 
             entity.Property(e => e.ComprobantePago)
-                .HasMaxLength(100)
+                .HasMaxLength(800)
                 .IsUnicode(false);
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(100)

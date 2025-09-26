@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20250921065706_UpdateComprobantePagoLengt")]
+    partial class UpdateComprobantePagoLengt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
