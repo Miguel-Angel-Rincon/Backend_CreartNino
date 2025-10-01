@@ -166,8 +166,8 @@ namespace Api_CreartNino.Controllers
 
         private async Task EnviarCorreo(string destinatario, string asunto, string cuerpoHtml)
         {
-            var correoEmisor = "angelrinconorozco11@gmail.com";
-            var claveApp = "motw rndg ehiq gvso";
+            var correoEmisor = "creartnino@gmail.com";
+            var claveApp = "nsul kpyv ujdk fkpn";
 
             var smtp = new SmtpClient("smtp.gmail.com")
             {
@@ -217,71 +217,189 @@ namespace Api_CreartNino.Controllers
 
         private string CrearCorreoLogin(string nombre, string codigo) => $@"
 <html>
-  <body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
-    <div style='max-width: 600px; margin: auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>
-      <div style='text-align: center;'>
-        <img src='https://img.freepik.com/vector-premium/mensaje-correo-electronico-confirmacion-icono-envio-correo-electronico-correo-verificado-documento-marca-verificacion-sobre-correo_659151-1358.jpg'
-             alt='Confirmación' style='width: 150px; margin-bottom: 20px;' />
-        <h2 style='color: #2c3e50;'>¡Hola {nombre}!</h2>
+  <body style='font-family: Arial, sans-serif; background-color: #fff0f5; padding: 30px;'>
+    <div style='max-width: 600px; margin: auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);'>
+      
+      <!-- Logo circular -->
+      <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+             alt='Confirmación'
+             style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
-      <p style='font-size: 16px; color: #333;'>Bienvenido a nuestro sitio web, ingresa este código y explora nuestro emprendimiento:</p>
-      <div style='font-size: 32px; font-weight: bold; color: white; background-color: #27ae60; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0;'>{codigo}</div>
-      <p style='font-size: 14px; color: #666;'>Este código es válido por 10 minutos. Si no fuiste tú quien lo solicitó, ignora este mensaje.</p>
-      <hr style='margin-top: 40px;' />
-      <p style='font-size: 12px; color: #aaa;'>No respondas a este correo. Fue generado automáticamente.</p>
+      
+      <!-- Título -->
+      <h2 style='color: #34495e; text-align: center; margin-bottom: 10px;'>¡Hola {nombre}!</h2>
+      <p style='font-size: 16px; color: #555; text-align: center; margin-bottom: 25px;'>
+        Bienvenido a <b>CreartNino</b>. Ingresa este código y explora nuestro emprendimiento ✨
+      </p>
+      
+      <!-- Código con fondo pastel rosado -->
+      <div style='font-size: 32px; font-weight: bold; color: #fff; 
+                  background: linear-gradient(135deg, #f8a5c2, #f78fb3); 
+                  padding: 18px; text-align: center; border-radius: 12px; margin: 20px auto; max-width: 300px;'>
+        {codigo}
+      </div>
+      
+      <!-- Info -->
+      <p style='font-size: 14px; color: #666; text-align: center;'>
+        Este código es válido por <b>10 minutos</b>.  
+        Si no fuiste tú quien lo solicitó, ignora este mensaje.
+      </p>
+      
+      <!-- Línea divisoria -->
+      <hr style='margin: 40px 0; border: none; border-top: 1px solid #eee;' />
+      
+      <!-- Footer -->
+      <p style='font-size: 12px; color: #aaa; text-align: center;'>
+        No respondas a este correo. Fue generado automáticamente.
+      </p>
+      <p style='font-size: 12px; color: #d6336c; text-align: center; font-weight: bold; margin-top: 10px;'>
+        ⚠️ Este código es válido solo por 10 minutos ⚠️
+      </p>
     </div>
   </body>
 </html>";
+
 
         private string CrearCorreoReenvioLogin(string nombre, string codigo) => $@"
 <html>
-  <body style='font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 30px;'>
-    <div style='max-width: 600px; margin: auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1);'>
-      <div style='text-align: center;'>
-        <img src='https://img.freepik.com/vector-premium/mensaje-correo-electronico-confirmacion-icono-envio-correo-electronico-correo-verificado-documento-marca-verificacion-sobre-correo_659151-1358.jpg'
-             alt='Confirmación' style='width: 150px; margin-bottom: 20px;' />
-        <h2 style='color: #2c3e50;'>¡Hola {nombre}!</h2>
+  <body style='font-family: Arial, sans-serif; background-color: #fff0f5; padding: 30px;'>
+    <div style='max-width: 600px; margin: auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);'>
+      
+      <!-- Logo circular -->
+      <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+             alt='Confirmación'
+             style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
-      <p style='font-size: 16px; color: #333;'>Este es tu nuevo código de verificación:</p>
-      <div style='font-size: 32px; font-weight: bold; color: white; background-color: #27ae60; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0;'>{codigo}</div>
-      <p style='font-size: 14px; color: #666;'>Este código es válido por 10 minutos.</p>
+      
+      <!-- Título -->
+      <h2 style='color: #34495e; text-align: center; margin-bottom: 10px;'>¡Hola {nombre}!</h2>
+      <p style='font-size: 16px; color: #555; text-align: center; margin-bottom: 25px;'>
+        Este es tu <b>nuevo código de verificación</b>.  
+        Por favor ingrésalo para continuar con tu inicio de sesión ✨
+      </p>
+      
+      <!-- Código con fondo pastel rosado -->
+      <div style='font-size: 32px; font-weight: bold; color: #fff; 
+                  background: linear-gradient(135deg, #f8a5c2, #f78fb3); 
+                  padding: 18px; text-align: center; border-radius: 12px; margin: 20px auto; max-width: 300px;'>
+        {codigo}
+      </div>
+      
+      <!-- Info -->
+      <p style='font-size: 14px; color: #666; text-align: center;'>
+        Este código es válido por <b>10 minutos</b>.  
+        Si no solicitaste este reenvío, ignora este mensaje.
+      </p>
+      
+      <!-- Línea divisoria -->
+      <hr style='margin: 40px 0; border: none; border-top: 1px solid #eee;' />
+      
+      <!-- Footer -->
+      <p style='font-size: 12px; color: #aaa; text-align: center;'>
+        No respondas a este correo. Fue generado automáticamente.
+      </p>
+      <p style='font-size: 12px; color: #d6336c; text-align: center; font-weight: bold; margin-top: 10px;'>
+        ⚠️ Este código es válido solo por 10 minutos ⚠️
+      </p>
     </div>
   </body>
 </html>";
+
 
         private string CrearCorreoRecuperacion(string codigo) => $@"
 <html>
-  <body style='font-family: Arial, sans-serif; background-color: #f0f8f7; padding: 30px;'>
-    <div style='max-width: 600px; margin: auto; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 0 15px rgba(0,0,0,0.1);'>
-      <div style='text-align: center;'>
-        <img src='https://wwwp.ugc.edu.co/sede/bogota/pages/restablecer/app/imagenes/cambiar.png'
-             alt='Recuperar contraseña' style='width: 120px; margin-bottom: 20px;' />
-        <h2 style='color: #34495e;'>¿Olvidaste tu contraseña?</h2>
+  <body style='font-family: Arial, sans-serif; background-color: #fff0f5; padding: 30px;'>
+    <div style='max-width: 600px; margin: auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);'>
+      
+      <!-- Logo circular -->
+      <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+             alt='Recuperar contraseña'
+             style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
-      <p style='font-size: 16px; color: #2c3e50;'>¡No te preocupes! Este es tu código para recuperar el acceso:</p>
-      <div style='font-size: 36px; font-weight: bold; color: white; background-color: #1abc9c; padding: 15px 0; text-align: center; border-radius: 8px; margin: 30px 0;'>{codigo}</div>
-      <p style='font-size: 14px; color: #555;'>Este código es válido por 10 minutos.</p>
+      
+      <!-- Título -->
+      <h2 style='color: #34495e; text-align: center; margin-bottom: 10px;'>¿Olvidaste tu contraseña?</h2>
+      <p style='font-size: 16px; color: #555; text-align: center; margin-bottom: 25px;'>
+        ¡No te preocupes! 💫 Ingresa el siguiente <b>código de recuperación</b> para restablecer tu acceso de forma segura.
+      </p>
+      
+      <!-- Código con fondo pastel rosado -->
+      <div style='font-size: 36px; font-weight: bold; color: #fff; 
+                  background: linear-gradient(135deg, #f8a5c2, #f78fb3); 
+                  padding: 20px; text-align: center; border-radius: 12px; margin: 30px auto; max-width: 300px;'>
+        {codigo}
+      </div>
+      
+      <!-- Info -->
+      <p style='font-size: 14px; color: #666; text-align: center;'>
+        Este código es válido por <b>10 minutos</b>.  
+        Si no solicitaste la recuperación de contraseña, simplemente ignora este mensaje.
+      </p>
+      
+      <!-- Línea divisoria -->
+      <hr style='margin: 40px 0; border: none; border-top: 1px solid #eee;' />
+      
+      <!-- Footer -->
+      <p style='font-size: 12px; color: #aaa; text-align: center;'>
+        No respondas a este correo. Fue generado automáticamente.
+      </p>
+      <p style='font-size: 12px; color: #d6336c; text-align: center; font-weight: bold; margin-top: 10px;'>
+        ⚠️ Este código es válido solo por 10 minutos ⚠️
+      </p>
     </div>
   </body>
 </html>";
 
+
         private string CrearCorreoReenvioRecuperacion(string codigo) => $@"
 <html>
-  <body style='font-family: Arial, sans-serif; background-color: #f0f8f7; padding: 30px;'>
-    <div style='max-width: 600px; margin: auto; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 0 15px rgba(0,0,0,0.1);'>
-      <div style='text-align: center;'>
-        <img src='https://wwwp.ugc.edu.co/sede/bogota/pages/restablecer/app/imagenes/cambiar.png'
-             alt='Código reenviado' style='width: 120px; margin-bottom: 20px;' />
-        <h2 style='color: #34495e;'>¡Aquí tienes tu nuevo código!</h2>
+  <body style='font-family: Arial, sans-serif; background-color: #fff0f5; padding: 30px;'>
+    <div style='max-width: 600px; margin: auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);'>
+      
+      <!-- Logo circular -->
+      <div style='text-align: center; margin-bottom: 20px;'>
+        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+             alt='Código reenviado'
+             style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
-      <p style='font-size: 16px; color: #2c3e50;'>Has solicitado un nuevo código para recuperar tu contraseña. Ingresa el siguiente código en la app:</p>
-      <div style='font-size: 36px; font-weight: bold; color: white; background-color: #1abc9c; padding: 15px 0; text-align: center; border-radius: 8px; margin: 30px 0;'>{codigo}</div>
-      <p style='font-size: 14px; color: #555;'>Este código es válido por <strong>10 minutos</strong>. Si no solicitaste esta recuperación, simplemente ignora este correo.</p>
-      <hr style='margin-top: 40px; border: none; border-top: 1px solid #ddd;' />
-      <p style='font-size: 12px; color: #aaa; text-align: center;'>Creart Niño - Email automático. No respondas a este mensaje.</p>
+      
+      <!-- Título -->
+      <h2 style='color: #34495e; text-align: center; margin-bottom: 10px;'>¡Aquí tienes tu nuevo código!</h2>
+      <p style='font-size: 16px; color: #555; text-align: center; margin-bottom: 25px;'>
+        Has solicitado un <b>nuevo código</b> para recuperar tu contraseña.  
+        Ingresa el siguiente código en la aplicación para continuar ✨
+      </p>
+      
+      <!-- Código con fondo pastel rosado -->
+      <div style='font-size: 36px; font-weight: bold; color: #fff; 
+                  background: linear-gradient(135deg, #f8a5c2, #f78fb3); 
+                  padding: 20px; text-align: center; border-radius: 12px; margin: 30px auto; max-width: 300px;'>
+        {codigo}
+      </div>
+      
+      <!-- Info -->
+      <p style='font-size: 14px; color: #666; text-align: center;'>
+        Este código es válido por <b>10 minutos</b>.  
+        Si no solicitaste esta recuperación, simplemente ignora este correo.
+      </p>
+      
+      <!-- Línea divisoria -->
+      <hr style='margin: 40px 0; border: none; border-top: 1px solid #eee;' />
+      
+      <!-- Footer -->
+      <p style='font-size: 12px; color: #aaa; text-align: center;'>
+        CreartNino - Email automático. No respondas a este mensaje.
+      </p>
+      <p style='font-size: 12px; color: #d6336c; text-align: center; font-weight: bold; margin-top: 10px;'>
+        ⚠️ Este código es válido solo por 10 minutos ⚠️
+      </p>
     </div>
   </body>
 </html>";
+
 
 
         public class CodigoTemporal

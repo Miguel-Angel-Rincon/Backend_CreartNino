@@ -234,7 +234,7 @@ namespace Api_CreartNino.Controllers
                 FechaExpiracion = DateTime.Now.AddMinutes(10)
             };
 
-            await _correoService.EnviarCorreoAsync(correo, "Código de verificación", $"Tu código es: {codigo}");
+            await _correoService.EnviarCorreoAsync(correo, "Código de verificación", $"{codigo}");
             return Ok(new { mensaje = "Código enviado al correo." });
         }
 
