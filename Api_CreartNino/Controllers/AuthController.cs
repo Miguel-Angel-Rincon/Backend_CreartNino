@@ -166,8 +166,8 @@ namespace Api_CreartNino.Controllers
 
         private async Task EnviarCorreo(string destinatario, string asunto, string cuerpoHtml)
         {
-            var correoEmisor = "creartnino@gmail.com";
-            var claveApp = "nsul kpyv ujdk fkpn";
+            var correoEmisor = _config["Email:Address"];
+            var claveApp = _config["Email:Password"];
 
             var smtp = new SmtpClient("smtp.gmail.com")
             {
@@ -222,7 +222,7 @@ namespace Api_CreartNino.Controllers
       
       <!-- Logo circular -->
       <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+        <img src='https://res.cloudinary.com/creartnino/image/upload/v1759263193/logo.jpg_nxtres.jpg'
              alt='Confirmación'
              style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
@@ -268,7 +268,7 @@ namespace Api_CreartNino.Controllers
       
       <!-- Logo circular -->
       <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+        <img src='https://res.cloudinary.com/creartnino/image/upload/v1759263193/logo.jpg_nxtres.jpg'
              alt='Confirmación'
              style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
@@ -315,7 +315,7 @@ namespace Api_CreartNino.Controllers
       
       <!-- Logo circular -->
       <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+        <img src='https://res.cloudinary.com/creartnino/image/upload/v1759263193/logo.jpg_nxtres.jpg'
              alt='Recuperar contraseña'
              style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>
@@ -361,7 +361,7 @@ namespace Api_CreartNino.Controllers
       
       <!-- Logo circular -->
       <div style='text-align: center; margin-bottom: 20px;'>
-        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg'
+        <img src='https://res.cloudinary.com/creartnino/image/upload/v1759263193/logo.jpg_nxtres.jpg'
              alt='Código reenviado'
              style='width: 120px; height: 120px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);' />
       </div>

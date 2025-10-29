@@ -159,27 +159,19 @@ namespace Api_CreartNino.Controllers
 
             dbContext.Usuarios.Update(usuarioDb);
 
-            // ==== Si existe Cliente con el mismo documento, actualizarlo también ====
+            // ✅ Sincronizar solo el estado con el cliente (sin tocar los demás campos)
             var clienteDb = await dbContext.Clientes.FirstOrDefaultAsync(c => c.NumDocumento == objeto.NumDocumento);
-            if (clienteDb != null)
+            if (clienteDb != null && clienteDb.Estado != objeto.Estado)
             {
-                clienteDb.NombreCompleto = objeto.NombreCompleto;
-                clienteDb.TipoDocumento = objeto.TipoDocumento;
-                clienteDb.NumDocumento = objeto.NumDocumento;
-                clienteDb.Celular = objeto.Celular;
-                clienteDb.Departamento = objeto.Departamento;
-                clienteDb.Ciudad = objeto.Ciudad;
-                clienteDb.Direccion = objeto.Direccion;
-                clienteDb.Correo = objeto.Correo;
                 clienteDb.Estado = objeto.Estado;
-
                 dbContext.Clientes.Update(clienteDb);
             }
 
             await dbContext.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Usuario (y cliente si aplica) actualizado correctamente." });
+            return Ok(new { mensaje = "Usuario actualizado correctamente (estado sincronizado con cliente si aplica)." });
         }
+
 
 
         [HttpDelete("Eliminar/{id:int}")]

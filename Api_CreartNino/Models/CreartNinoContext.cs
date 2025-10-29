@@ -86,7 +86,7 @@ public partial class CreartNinoContext : DbContext
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.IdRol).HasName("PK__Roles__2A49584C1259A8E6");
-            entity.Property(e => e.Descripcion).HasMaxLength(100).IsUnicode(false);
+            entity.Property(e => e.Descripcion).HasColumnType("nvarchar(max)").IsUnicode(false);
             entity.Property(e => e.Rol).HasMaxLength(50).IsUnicode(false);
         });
 
@@ -103,8 +103,8 @@ public partial class CreartNinoContext : DbContext
             entity.ToTable("Categoria_Insumo");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
             entity.Property(e => e.NombreCategoria)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -121,8 +121,8 @@ public partial class CreartNinoContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("CategoriaProducto");
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
         });
 
         modelBuilder.Entity<Cliente>(entity =>
@@ -142,7 +142,7 @@ public partial class CreartNinoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
-                .HasMaxLength(50)
+                .HasMaxLength(300)
                 .IsUnicode(false);
             entity.Property(e => e.NombreCompleto)
                 .HasMaxLength(50)
@@ -282,10 +282,10 @@ public partial class CreartNinoContext : DbContext
             entity.ToTable("Imagenes_Productos");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
             entity.Property(e => e.Url)
-                .HasMaxLength(300)
+                .HasColumnType("nvarchar(max)")
                 .IsUnicode(false)
                 .HasColumnName("URL");
         });
@@ -319,8 +319,8 @@ public partial class CreartNinoContext : DbContext
                 .HasMaxLength(800)
                 .IsUnicode(false);
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+    .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
             entity.Property(e => e.MetodoPago)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -398,7 +398,7 @@ public partial class CreartNinoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
-                .HasMaxLength(50)
+                .HasMaxLength(300)
                 .IsUnicode(false);
             entity.Property(e => e.NombreCompleto)
                 .HasMaxLength(100)
@@ -419,8 +419,8 @@ public partial class CreartNinoContext : DbContext
             entity.HasKey(e => e.IdRol).HasName("PK__Roles__2A49584C1259A8E6");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
             entity.Property(e => e.Rol)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -450,7 +450,7 @@ public partial class CreartNinoContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
-                .HasMaxLength(50)
+                .HasMaxLength(300)
                 .IsUnicode(false);
             entity.Property(e => e.NombreCompleto)
                 .HasMaxLength(100)
@@ -474,8 +474,8 @@ public partial class CreartNinoContext : DbContext
                 .ToView("vw_Roles_Permisos");
 
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+                .HasColumnType("nvarchar(max)")
+    .IsUnicode(false);
             entity.Property(e => e.Rol)
                 .HasMaxLength(50)
                 .IsUnicode(false);

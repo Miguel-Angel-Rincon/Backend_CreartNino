@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20251013210245_masespaciosdirecciones")]
+    partial class masespaciosdirecciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,8 +343,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
+                        .HasMaxLength(300)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("varchar(300)")
                         .HasColumnName("URL");
 
                     b.HasKey("IdImagen")
@@ -508,9 +512,6 @@ namespace Api_CreartNino.Migrations
 
                     b.Property<int?>("CategoriaProducto")
                         .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");

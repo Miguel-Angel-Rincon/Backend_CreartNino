@@ -17,7 +17,7 @@ namespace Api_CreartNino.Services
     <div style='max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);'>
 
       <div style='text-align: center;'>
-        <img src='https://res.cloudinary.com/ditcytztj/image/upload/v1759263193/logo.jpg_nxtres.jpg' 
+        <img src='https://res.cloudinary.com/creartnino/image/upload/v1759263193/logo.jpg_nxtres.jpg' 
              alt='Confirmación de correo' 
              style='max-width: 120px; height: auto; border-radius: 10px; margin-bottom: 20px;' />
         <h2 style='color: #d81b60;'>Código de Verificación</h2>

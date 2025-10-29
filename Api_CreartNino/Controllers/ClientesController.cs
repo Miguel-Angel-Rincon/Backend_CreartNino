@@ -114,29 +114,21 @@ namespace Api_CreartNino.Controllers
 
             dbContext.Clientes.Update(clienteDb);
 
-            // === Si existe un Usuario con el mismo NumDocumento, actualizar sus campos también ===
+            // ✅ Sincronizar solo el estado con el usuario (sin tocar otros campos)
             var usuarioDb = await dbContext.Usuarios
                 .FirstOrDefaultAsync(u => u.NumDocumento == objeto.NumDocumento);
 
-            if (usuarioDb != null)
+            if (usuarioDb != null && usuarioDb.Estado != objeto.Estado)
             {
-                usuarioDb.NombreCompleto = objeto.NombreCompleto;
-                usuarioDb.TipoDocumento = objeto.TipoDocumento;
-                usuarioDb.NumDocumento = objeto.NumDocumento;
-                usuarioDb.Celular = objeto.Celular;
-                usuarioDb.Departamento = objeto.Departamento;
-                usuarioDb.Ciudad = objeto.Ciudad;
-                usuarioDb.Direccion = objeto.Direccion;
-                usuarioDb.Correo = objeto.Correo;
                 usuarioDb.Estado = objeto.Estado;
-
                 dbContext.Usuarios.Update(usuarioDb);
             }
 
             await dbContext.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Cliente actualizado correctamente." });
+            return Ok(new { mensaje = "Cliente actualizado correctamente (estado sincronizado con usuario si aplica)." });
         }
+
 
 
 

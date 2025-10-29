@@ -55,7 +55,8 @@ builder.Services.AddCors(options =>
             "https://creartnino.vercel.app" // 👉 producción en Vercel
         )
         .AllowAnyHeader()
-        .AllowAnyMethod();
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
 
@@ -75,14 +76,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRouting();
-
-
-app.UseCors("NuevaPolitica");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
+// ⚠️ ORDEN CORRECTO DE MIDDLEWARES (CRÍTICO)
+app.UseCors("NuevaPolitica");  // ⬅️ 1. CORS primero
+app.UseRouting();               // ⬅️ 2. Routing después
+app.UseAuthentication();        // ⬅️ 3. Auth
+app.UseAuthorization();         // ⬅️ 4. Authorization
 app.MapControllers();
 
 

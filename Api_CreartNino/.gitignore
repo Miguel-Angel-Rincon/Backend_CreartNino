@@ -1,0 +1,23 @@
+﻿# Configuración con credenciales
+Web.config
+appsettings.Development.json
+
+# Archivos de compilación
+bin/
+obj/
+*.pdb
+*.user
+*.vs/
+
+# Dependencias
+node_modules/
+packages/
+
+# Archivos temporales
+*.tmp
+*.temp
+logs/
+
+# Otros
+.vscode/
+.idea/

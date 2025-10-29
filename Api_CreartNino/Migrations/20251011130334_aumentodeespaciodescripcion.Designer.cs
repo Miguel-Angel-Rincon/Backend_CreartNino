@@ -4,6 +4,7 @@ using Api_CreartNino.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_CreartNino.Migrations
 {
     [DbContext(typeof(CreartNinoContext))]
-    partial class CreartNinoContextModelSnapshot : ModelSnapshot
+    [Migration("20251011130334_aumentodeespaciodescripcion")]
+    partial class aumentodeespaciodescripcion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +34,9 @@ namespace Api_CreartNino.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCatInsumo"));
 
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -63,8 +67,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnName("CategoriaProducto");
 
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -104,9 +109,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Direccion")
-                        .HasMaxLength(300)
+                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(300)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -336,12 +341,14 @@ namespace Api_CreartNino.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdImagen"));
 
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Url")
+                        .HasMaxLength(300)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("varchar(300)")
                         .HasColumnName("URL");
 
                     b.HasKey("IdImagen")
@@ -402,8 +409,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnType("varchar(800)");
 
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(1000)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime?>("FechaEntrega")
                         .HasColumnType("datetime2");
@@ -509,9 +517,6 @@ namespace Api_CreartNino.Migrations
                     b.Property<int?>("CategoriaProducto")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
 
@@ -563,9 +568,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Direccion")
-                        .HasMaxLength(300)
+                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(300)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -605,8 +610,9 @@ namespace Api_CreartNino.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRol"));
 
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -656,9 +662,9 @@ namespace Api_CreartNino.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Direccion")
-                        .HasMaxLength(300)
+                        .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(300)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool?>("Estado")
                         .HasColumnType("bit");
@@ -696,8 +702,9 @@ namespace Api_CreartNino.Migrations
             modelBuilder.Entity("Api_CreartNino.Models.VwRolesPermiso", b =>
                 {
                     b.Property<string>("Descripcion")
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("IdPermisos")
                         .HasColumnType("int");

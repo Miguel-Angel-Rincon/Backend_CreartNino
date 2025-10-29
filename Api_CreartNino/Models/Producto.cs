@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api_CreartNino.Models;
 
@@ -14,6 +15,9 @@ public partial class Producto
     public int? Imagen { get; set; }
 
     public int? Cantidad { get; set; }
+
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Descripcion { get; set; }
 
     public string? Marca { get; set; }
 
