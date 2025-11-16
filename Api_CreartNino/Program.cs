@@ -50,15 +50,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("NuevaPolitica", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5173",        // 👉 desarrollo local
-            "https://creartnino.vercel.app" // 👉 producción en Vercel
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        policy
+            .SetIsOriginAllowed(_ => true)  // ✅ permite todos los orígenes
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();            // ✅ funciona con credenciales
     });
 });
+
 
 
 builder.Services.AddControllers()

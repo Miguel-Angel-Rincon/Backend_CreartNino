@@ -85,6 +85,9 @@ namespace Api_CreartNino.Controllers
                 return NotFound(new { mensaje = "Cliente no encontrado." });
             }
 
+            // Guardar documento ORIGINAL antes de actualizar
+            string documentoOriginal = clienteDb.NumDocumento;
+
             // Validar correo duplicado (excluyendo al cliente actual)
             var existeCorreo = await dbContext.Clientes
                 .AnyAsync(c => c.Correo == objeto.Correo && c.IdCliente != id);
@@ -93,7 +96,7 @@ namespace Api_CreartNino.Controllers
                 return BadRequest(new { mensaje = "El correo ya está registrado por otro cliente." });
             }
 
-            // Validar número de documento duplicado (excluyendo al cliente actual)
+            // Validar documento duplicado (excluyendo al cliente actual)
             var existeDocumento = await dbContext.Clientes
                 .AnyAsync(c => c.NumDocumento == objeto.NumDocumento && c.IdCliente != id);
             if (existeDocumento)
@@ -114,20 +117,29 @@ namespace Api_CreartNino.Controllers
 
             dbContext.Clientes.Update(clienteDb);
 
-            // ✅ Sincronizar solo el estado con el usuario (sin tocar otros campos)
+            // === Sincronizar con Usuario ===
             var usuarioDb = await dbContext.Usuarios
-                .FirstOrDefaultAsync(u => u.NumDocumento == objeto.NumDocumento);
+                .FirstOrDefaultAsync(u => u.NumDocumento == documentoOriginal); // <-- IMPORTANTE
 
-            if (usuarioDb != null && usuarioDb.Estado != objeto.Estado)
+            if (usuarioDb != null)
             {
+                usuarioDb.NombreCompleto = objeto.NombreCompleto;
+                usuarioDb.NumDocumento = objeto.NumDocumento;
+                usuarioDb.Celular = objeto.Celular;
+                usuarioDb.Departamento = objeto.Departamento;
+                usuarioDb.Ciudad = objeto.Ciudad;
+                usuarioDb.Direccion = objeto.Direccion;
+                usuarioDb.Correo = objeto.Correo;
                 usuarioDb.Estado = objeto.Estado;
+
                 dbContext.Usuarios.Update(usuarioDb);
             }
 
             await dbContext.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Cliente actualizado correctamente (estado sincronizado con usuario si aplica)." });
+            return Ok(new { mensaje = "Cliente y usuario actualizados correctamente." });
         }
+
 
 
 
