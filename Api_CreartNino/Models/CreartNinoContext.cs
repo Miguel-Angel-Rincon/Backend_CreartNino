@@ -190,7 +190,7 @@ public partial class CreartNinoContext : DbContext
 
             entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.DetallePedidos)
                 .HasForeignKey(d => d.IdProducto)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_DetallePedido_Producto");
         });
 
@@ -202,7 +202,7 @@ public partial class CreartNinoContext : DbContext
 
             entity.HasOne(d => d.IdInsumoNavigation).WithMany(p => p.DetalleProduccions)
                 .HasForeignKey(d => d.IdInsumo)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_DetalleProduccion_IdInsumo");
 
             entity.HasOne(d => d.IdProduccionNavigation).WithMany(p => p.DetalleProduccions)
@@ -212,14 +212,14 @@ public partial class CreartNinoContext : DbContext
 
             entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.DetalleProduccions)
                 .HasForeignKey(d => d.IdProducto)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_DetalleProduccion_IdProducto");
 
             modelBuilder.Entity<DetalleProduccion>()
     .HasOne(d => d.IdPedidoNavigation)
     .WithMany()
     .HasForeignKey(d => d.IdPedido)
-    .OnDelete(DeleteBehavior.Cascade);
+    .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<DetallesCompra>(entity =>
@@ -238,7 +238,7 @@ public partial class CreartNinoContext : DbContext
 
             entity.HasOne(d => d.IdInsumoNavigation).WithMany(p => p.DetallesCompras)
                 .HasForeignKey(d => d.IdInsumo)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_DetallesCompra_Insumo");
         });
 
